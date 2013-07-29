@@ -1,14 +1,17 @@
 ﻿; Windows Updates Uninstaller Utility
 ;
+; Requires AutoHotKey_L for running as script and compiling
+;
 ; @author: Rinku Kazeno <development@kazeno.co>
 ; @license: WTFPL v2
 ; @website: https://bitbucket.org/kazenoco/windows-updates-uninstaller-utility
 
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 #Warn  ; Recommended for catching common errors.
+#NoTrayIcon
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
-Version = 0.9a	; Program version
+Version = 1.0	; Program version
 
 ; Get the list of installed Hotfixes from a temporal text file created by WMIC
 FilePath := A_ScriptDir . "\WindowsUpdatesUninstallUtilityHotfixList.txt"
@@ -80,7 +83,6 @@ Uninstall:
 		GuiControl, , HotfixText, % CheckBox%A_Index%
 		GuiControl, , NumText, % "(" . A_Index . " of " . Rows . ")"
 		GuiControl,, ProgressBar, % (Rows*A_Index)/100
-		;RunWait, calc.exe
 		RunWait, wusa.exe /kb:%HotfixId% /uninstall /quiet /norestart
 	}
 	GuiControl, Hide , TopText
